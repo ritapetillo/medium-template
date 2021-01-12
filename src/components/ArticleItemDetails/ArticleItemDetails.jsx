@@ -1,21 +1,31 @@
 import React from "react";
 import "./styles.scss";
+import { deleteArticle } from "../../lib/fetches";
+
 class ArticleItemDetails extends React.Component {
   render() {
+    const { article, setUpArticles } = this.props;
+    const handleDelete = async () => {
+      try {
+        await deleteArticle(article._id);
+        await setUpArticles();
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     return (
       <div className={"pr-3"}>
         <div className={"d-flex align-center mb-2"}>
           <img
-          alt="cover"
+            alt="cover"
             style={{ width: "20px", height: "20px" }}
-            src={
-              "https://miro.medium.com/fit/c/20/20/1*xF11-TSkpJSCgLc75f-DFw.jpeg"
-            }
+            src={article.author.img}
           />
 
           <span className={"author"}>
             <a href="/">
-              <b>{this.props.article.author} </b> in <b>Better Advice</b>
+              <b>{article.author.name} </b> in <b>Better Advice</b>
             </a>
           </span>
         </div>
@@ -27,11 +37,11 @@ class ArticleItemDetails extends React.Component {
               lineHeight: this.props.headingFont === "small" ? "20px" : "28px",
             }}
           >
-            {this.props.article.headLine}
+            {this.props.article.headline}
           </span>
         </a>
 
-        {this.props.subheading && (
+        {article.subHead && (
           <div className={"subheading"}>
             <p>
               <a href="/">{this.props.article.subHead}</a>
@@ -50,6 +60,14 @@ class ArticleItemDetails extends React.Component {
 
               <span>
                 <span>4 min read</span>
+              </span>
+              <span>
+                <span
+                  className="ml-4 delete-btn"
+                  onClick={() => handleDelete()}
+                >
+                  Delete
+                </span>
               </span>
             </div>
           </h4>
