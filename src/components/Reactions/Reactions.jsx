@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoLogoTwitter, IoLogoLinkedin, IoLogoFacebook } from "react-icons/io";
 import { IoBookmarkOutline } from "react-icons/io5";
 import { FaRegComment } from "react-icons/fa";
 import { Button } from "react-bootstrap";
-export default function Reactions() {
+import { postNewReview } from "../../lib/fetches";
+
+export default function Reactions({ setUpReviews, slug, attempt }) {
+  const [articleId, setArticleId] = useState(slug);
+  const [review, setReview] = useState("");
+  useEffect(() => {
+    setArticleId(slug);
+    setUpReviews();
+  }, [slug]);
+
+  const handleSubmit = async () => {
+    const comment = await postNewReview(articleId, review);
+    setUpReviews();
+    setReview("");
+  };
   return (
     <>
       <div
@@ -40,10 +54,15 @@ export default function Reactions() {
         </div>
       </div>
 
-      <div style={{ marginTop: 50, marginBottom: 200 }}>
+      <div style={{ marginTop: 50, marginBottom: 100 }}>
         <label>What are your thoughts?</label>
-        <textarea style={{ width: "100%", padding: 20 }} />
-        <Button variant="success">Send</Button>
+        <textarea
+          style={{ width: "100%", padding: 20 }}
+          onChange={(e) => setReview({ text: e.target.value, user: "User1" })}
+        />
+        <Button variant="success" onClick={handleSubmit}>
+          Send
+        </Button>
       </div>
     </>
   );

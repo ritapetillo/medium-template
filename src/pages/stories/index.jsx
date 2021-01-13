@@ -19,26 +19,10 @@ export default class Stories extends Component {
     }
   };
   componentDidMount = async () => {
-    await this.setUpArticles();
+    this.setUpArticles();
   };
 
-//   componentDidUpdate = async (prevProp, prevState) => {
-//     if (prevState.articles !== this.state.articles)
-//       await this.setUpArticles();
-//   };
-
-  //   componentDidUpdate = async (prevProp, prevState) => {
-  //     if (prevState.articles != this.state.articles) {
-  //       try {
-  //         const articles = await fetchAllArticles();
-  //         console.log(articles);
-  //         this.setState({ articles: articles });
-  //         console.log(this.state.articles);
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     }
-  //   };
+ 
   render() {
     return (
       <Container>

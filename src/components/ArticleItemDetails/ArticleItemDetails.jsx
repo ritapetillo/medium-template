@@ -1,19 +1,20 @@
 import React from "react";
 import "./styles.scss";
 import { deleteArticle } from "../../lib/fetches";
+import { Link } from "react-router-dom";
 
 class ArticleItemDetails extends React.Component {
   render() {
     const { article, setUpArticles } = this.props;
+
     const handleDelete = async () => {
       try {
         await deleteArticle(article._id);
-        await setUpArticles();
+        setUpArticles();
       } catch (err) {
         console.log(err);
       }
     };
-
     return (
       <div className={"pr-3"}>
         <div className={"d-flex align-center mb-2"}>
@@ -29,7 +30,7 @@ class ArticleItemDetails extends React.Component {
             </a>
           </span>
         </div>
-        <a href="/">
+        <Link to={`/read/${article._id}`}>
           <span
             className={"heading"}
             style={{
@@ -37,9 +38,9 @@ class ArticleItemDetails extends React.Component {
               lineHeight: this.props.headingFont === "small" ? "20px" : "28px",
             }}
           >
-            {this.props.article.headline}
+            {this.props.article.headLine}
           </span>
-        </a>
+        </Link>
 
         {article.subHead && (
           <div className={"subheading"}>
